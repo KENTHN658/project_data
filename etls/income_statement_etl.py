@@ -23,5 +23,6 @@ def transform_income_statement(data):
 
 def load_data_to_csv(data: pd.DataFrame, path: str):
     print("load csv 123")
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    statetus = os.makedirs(os.path.dirname(path), exist_ok=True)
+    print(statetus)
     data.to_csv(path, index=False)

@@ -12,7 +12,8 @@ def alphavantage_pipeline(file_name: str):
     data_df = pd.DataFrame(data)
     print(data_df)
     file_path = f'{OUTPUT_PATH}/{file_name}.csv'
-    print(file_path)
+    print("file path" + file_path)
+    print("file" + file_name)
     load_data_to_csv(data_df, file_path)
 
     return file_path
