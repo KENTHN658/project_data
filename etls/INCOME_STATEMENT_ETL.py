@@ -6,6 +6,8 @@ import requests
 
 
 def feth_income_statement(apikey, symbol):
+    print(apikey)
+    print(symbol)
     url = 'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=IBM&apikey=demo'
     r = requests.get(url)
     data = r.json()
