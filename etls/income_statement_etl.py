@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import pandas as pd
 import requests
-
+import os
 
 
 def feth_income_statement(apikey, symbol):
@@ -22,4 +22,6 @@ def transform_income_statement(data):
     return df
 
 def load_data_to_csv(data: pd.DataFrame, path: str):
+    print("load csv 123")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     data.to_csv(path, index=False)
