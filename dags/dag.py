@@ -41,22 +41,3 @@ with DAG(
 
 run_pipeline
 
-# file_postfix = datetime.now().strftime("%Y%m%d")
-
-# dag = DAG(
-#     dag_id='etl_income_statement_pipeline',
-#     default_args=default_args,
-#     catchup=False,
-#     tags=['reddit', 'etl', 'pipeline']
-# )
-
-# extract = PythonOperator(
-#     task_id='income_extraction',
-#     python_callable=alphavantage_pipeline,
-#     op_kwargs={
-#         'file_name': f'income_{file_postfix}',
-#     },
-#     dag=dag
-# )
-
-# extract 
