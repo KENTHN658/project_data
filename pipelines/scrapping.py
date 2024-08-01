@@ -4,13 +4,13 @@ from io import StringIO
 from bs4 import BeautifulSoup
 import requests
 
-resource = "https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population"
+resource = "https://www.worlddata.info/america/brazil/inflation-rates.php"
 res = requests.get(resource)
 soup = BeautifulSoup(res.text, "html.parser")
+# print(soup)
+# topic = soup.find(id="firstHeading").get_text()
 
-topic = soup.find(id="firstHeading").get_text()
-
-datatable = soup.find("table", {"class": "wikitable"})
+datatable = soup.find("table", {"class": "std100 hover sticky"})
 print(datatable)
 
 df = pd.read_html(str(datatable))
