@@ -8,7 +8,7 @@ from airflow.utils.dates import days_ago
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-from pipelines.alphavantage_pipeline import alphavantage_pipeline
+from pipelines.inflation_pipeline import inflation_pipeline
 
 
 default_args = {
@@ -21,22 +21,22 @@ default_args = {
     'retry_delay': timedelta(minutes=1),
 }
 
-def run_alphavantage_pipeline():
-    file_name = 'income_statement_IBM'
-    subreddit = 'financialdata'
-    alphavantage_pipeline(file_name)
+def run_inflation_rates_pipeline():
+    current_year = datetime.now().year
+    file_name = f'inflation_rates_{current_year}'
+    url = "https://www.worlddata.info/america/brazil/inflation-rates.php"
+    inflation_pipeline(file_name, url)
 
 with DAG(
-    'alphavantage_income_statement_dag',
+    'inflation_rates_pipeline_dag',
     default_args=default_args,
-    description='DAG for fetching and processing income statements from Alpha Vantage',
+    description='DAG for fetching and processing inflation rates for Brazil',
     schedule_interval=timedelta(days=1),
     catchup=False,
 ) as dag:
-
     run_pipeline = PythonOperator(
-        task_id='run_alphavantage_pipeline',
-        python_callable=run_alphavantage_pipeline,
+        task_id='run_inflation_pipeline',
+        python_callable=run_inflation_rates_pipeline,
     )
 
 run_pipeline
