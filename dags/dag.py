@@ -40,4 +40,3 @@ with DAG(
     )
 
 run_pipeline
-
