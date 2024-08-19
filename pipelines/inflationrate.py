@@ -92,6 +92,6 @@ def write_website_data(**kwargs):
     except Exception as e:
         print(f"Error saving data: {e}")
 
-def write_data_on_cloud():
+
 
 
