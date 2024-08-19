@@ -85,7 +85,7 @@ def write_website_data(**kwargs):
                     storage_options={
                 'account_name': 'projectdataeng',
                 'account_key': f'{ACCESS_KEY}'
-            })
+            },index=False)
         except Exception as e:
             print(f"Error saving data on cloud: {e}")
         print(f"Data saved to {file_path}")
