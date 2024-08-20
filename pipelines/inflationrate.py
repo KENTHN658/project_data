@@ -4,6 +4,9 @@ import pandas as pd
 from datetime import datetime
 from utils.constants import OUTPUT_PATH, ACCESS_KEY
 
+
+file_name = f'inflation_rates_{ datetime.now().year}.csv'
+
 def get_data_page(url):
     import requests
 
@@ -71,26 +74,37 @@ def write_website_data(**kwargs):
     data = json.loads(data)
     data = pd.DataFrame(data)
 
-    file_name = f'inflation_rates_{ datetime.now().year}'
-    file_path = f'{OUTPUT_PATH}/{file_name}.csv'
+    file_name = f'inflation_rates_{ datetime.now().year}.csv'
+    file_path = f'{OUTPUT_PATH}/{file_name}'
     files = os.listdir(OUTPUT_PATH)
     print("Files in output path:")
+
+    arr_check_file = []
     for f in files:
         print(f)
-    try:
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        data.to_csv(file_path, index=False)
+        arr_check_file.append(f)
+    if file_name not in arr_check_file:
         try:
-            data.to_csv(f'abfs://dataeng@projectdataeng.dfs.core.window.net/data/{file_name}',
-                    storage_options={
-                'account_name': 'projectdataeng',
-                'account_key': f'{ACCESS_KEY}'
-            },index=False)
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            data.to_csv(file_path, index=False)
+            try:
+                data.to_csv(f'abfs://dataeng@projectdataeng.dfs.core.window.net/data/{file_name}',
+                        storage_options={
+                    'account_name': 'projectdataeng',
+                    'account_key': f'{ACCESS_KEY}'
+                },index=False)
+            except Exception as e:
+                print(f"Error saving data on cloud: {e}")
+            print(f"Data saved to {file_path}")
         except Exception as e:
-            print(f"Error saving data on cloud: {e}")
-        print(f"Data saved to {file_path}")
-    except Exception as e:
-        print(f"Error saving data: {e}")
+            print(f"Error saving data: {e}")
+    else:
+        print(f"On cloud have this file name : {file_name}")
+
+    kwargs['ti'].xcom_push(key='rows', value=file_name)
+    
+
+
 
 
 

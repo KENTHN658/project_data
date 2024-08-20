@@ -17,7 +17,7 @@ dag = DAG(
     default_args={
         "start_date": datetime(2024, 8, 1),
     },
-    schedule_interval=None,
+    schedule_interval=timedelta(days=365),
     catchup=False
 )
 
@@ -43,4 +43,4 @@ write_website_data = PythonOperator(
     dag=dag
 )
 
-extract_data_from_website >> transform_website_data >> write_website_data
+extract_data_from_website >> transform_website_data >> write_website_data 
